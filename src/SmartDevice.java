@@ -9,6 +9,20 @@ public class SmartDevice {
     private float batteryLife;
     private float price;
     private boolean isInStock;
+    public static int maxDevices = 10;
+    public static String[] DeviceDatabase = new String[maxDevices];
+
+    public SmartDevice(long deviceID, String deviceName, String deviceType, String osVersion, float batteryLife, float price, boolean isInStock, int index){
+        this.deviceID = deviceID;
+        this.deviceName = deviceName;
+        this.deviceType = deviceType;
+        this.osVersion = osVersion;
+        this.batteryLife = batteryLife;
+        this.price = price;
+        this.isInStock = isInStock;
+
+        DeviceDatabase[index] = deviceID + "|" + deviceName + "|" + deviceType + "|" + osVersion + "|" + batteryLife + "|" + price + "|" + isInStock;
+    }
 
     public void setDeviceId(long deviceID){
         this.deviceID = deviceID;
