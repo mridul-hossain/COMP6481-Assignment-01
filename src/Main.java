@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -30,8 +31,16 @@ public class Main {
                     if(defaultPassword.equals(password)){
                         System.out.println("How many devices do want to add?");
                         int devicesWantToAdd = Integer.valueOf(input.nextLine());
-                        if((SmartDevice.maxDevices - devicesWantToAdd) >= 0){
-                            for (int i = 0; i < devicesWantToAdd; i++){
+
+                        //counting how many device information is already stored in the device database
+                        int dataCount = 0;
+                        while(SmartDevice.DeviceDatabase[dataCount] != null){
+                            dataCount++;
+                        }
+                        //end of counting how many device information is already stored in the device database
+
+                        if((SmartDevice.maxDevices - (devicesWantToAdd + dataCount)) >= 0){
+                            for (int i = dataCount; i < (devicesWantToAdd + dataCount); i++){
                                 System.out.println("Please type the following information >");
                                 System.out.println("ID:");
                                 deviceID = Long.valueOf(input.nextLine());
@@ -48,9 +57,11 @@ public class Main {
                                 System.out.println("Availability:");
                                 isInStock = Boolean.valueOf(input.nextLine());
 
+                                //creating objects of devices
                                 new SmartDevice(deviceID, deviceName, deviceType, osVersion, batteryLife, price, isInStock, i);
                             }
                         }
+                        System.out.println("Device(s) added successfully.");
                         action = 0;
                         break;
                     }else{
@@ -64,7 +75,6 @@ public class Main {
                         }
                     }
                 }
-                System.out.println("Device(s) added successfully.");
                 action = 0;
             }
             if(action == 2){
@@ -72,26 +82,31 @@ public class Main {
                     System.out.println("Please enter your password: ");
                     password = input.nextLine();
                     if(defaultPassword.equals(password)){
-                        System.out.println("Type the device ID that you want to update:");
-                        int devicesWantToAdd = Integer.valueOf(input.nextLine());
-                        if((SmartDevice.maxDevices - devicesWantToAdd) >= 0){
-                            for (int i = 0; i < devicesWantToAdd; i++){
-                                System.out.println("ID:");
-                                deviceID = Long.valueOf(input.nextLine());
-                                System.out.println("Name:");
-                                deviceName = input.nextLine();
-                                System.out.println("Type:");
-                                deviceType = input.nextLine();
-                                System.out.println("OS Version:");
-                                osVersion = input.nextLine();
-                                System.out.println("Battery Life:");
-                                batteryLife = Float.valueOf(input.nextLine());
-                                System.out.println("Price:");
-                                price = Float.valueOf(input.nextLine());
-                                System.out.println("Availability:");
-                                isInStock = Boolean.valueOf(input.nextLine());
+                        while(true){
+                            System.out.println("Type the device ID that you want to update:");
+                            long devicesIdToEdit = Long.valueOf(input.nextLine());
 
-                                new SmartDevice(deviceID, deviceName, deviceType, osVersion, batteryLife, price, isInStock, i);
+                            //checking if the database is empty or not
+                            int indexCount = 0;
+                            String[] deviceInfo = null;
+                            while(SmartDevice.DeviceDatabase[indexCount] != null){
+                                deviceInfo = SmartDevice.DeviceDatabase[indexCount].split("\\|");
+                                if(deviceInfo[0].equals(devicesIdToEdit)){
+                                    break;
+                                }
+                                indexCount++;
+                            }
+                            //end of checking if the database is empty or not
+
+                            if(deviceInfo == null){
+                                System.out.println("No device found with the following ID.\nDo you want to update another device?\n1. Yes\n2. No");
+                                int decision = Integer.valueOf(input.nextLine());
+                                if(decision == 2){
+                                    break;
+                                }
+                            }else{
+                                System.out.println("SmartDevice: #" + indexCount + "\nID:" + deviceInfo[0] + "\nDevice Name:" + deviceInfo[1] + "\nDevice Type:" + deviceInfo[2] +  "\nOS Version:" + deviceInfo[3] +  "\nBattery Life:" + deviceInfo[4] +  "\nPrice:" + deviceInfo[5] +  "\nAvailability:" + deviceInfo[6]);
+                                break;
                             }
                         }
                         action = 0;
@@ -107,7 +122,6 @@ public class Main {
                         }
                     }
                 }
-                System.out.println("Device(s) added successfully.");
                 action = 0;
             }
             if(action == 3){
@@ -120,5 +134,7 @@ public class Main {
                 break;
             }
         }
+
+//        System.out.println(Arrays.toString(SmartDevice.DeviceDatabase));
     }
 }
