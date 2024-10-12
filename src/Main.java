@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -11,13 +13,6 @@ public class Main {
         String defaultPassword = "device2024";
         int passwordCount = 0;
         String password;
-        long deviceID;
-        String deviceName;
-        String deviceType;
-        String osVersion;
-        float batteryLife;
-        float price;
-        boolean isInStock;
 
         while(action == 0){
             System.out.println("** WELCOME TO DEVICE MANAGER **\n(This device manager only can manage 10 devices)");
@@ -41,27 +36,27 @@ public class Main {
 
                         if((SmartDevice.maxDevices - (devicesWantToAdd + dataCount)) >= 0){
                             for (int i = dataCount; i < (devicesWantToAdd + dataCount); i++){
+                                SmartDevice sd = new SmartDevice();
                                 System.out.println("Please type the following information >");
                                 System.out.println("ID:");
-                                deviceID = Long.valueOf(input.nextLine());
+                                sd.setDeviceId(Long.valueOf(input.nextLine()));
                                 System.out.println("Name:");
-                                deviceName = input.nextLine();
+                                sd.setDeviceName(input.nextLine());
                                 System.out.println("Type:");
-                                deviceType = input.nextLine();
+                                sd.setDeviceType(input.nextLine());
                                 System.out.println("OS Version:");
-                                osVersion = input.nextLine();
+                                sd.setOsVersion(input.nextLine());
                                 System.out.println("Battery Life:");
-                                batteryLife = Float.valueOf(input.nextLine());
+                                sd.setBatteryLife(Float.valueOf(input.nextLine()));
                                 System.out.println("Price:");
-                                price = Float.valueOf(input.nextLine());
+                                sd.setPrice(Float.valueOf(input.nextLine()));
                                 System.out.println("Availability:");
-                                isInStock = Boolean.valueOf(input.nextLine());
+                                sd.setIsInStock(Boolean.valueOf(input.nextLine()));
 
-                                //creating objects of devices
-                                new SmartDevice(deviceID, deviceName, deviceType, osVersion, batteryLife, price, isInStock, i);
+                                String result = sd.addDevice(i);
+                                System.out.println(result);
                             }
                         }
-                        System.out.println("Device(s) added successfully.");
                         action = 0;
                         break;
                     }else{
@@ -86,17 +81,17 @@ public class Main {
                             System.out.println("Type the device ID that you want to update:");
                             long devicesIdToEdit = Long.valueOf(input.nextLine());
 
-                            //checking if the database is empty or not
+                            //getting the device info from the device database
                             int indexCount = 0;
                             String[] deviceInfo = null;
                             while(SmartDevice.DeviceDatabase[indexCount] != null){
                                 deviceInfo = SmartDevice.DeviceDatabase[indexCount].split("\\|");
-                                if(deviceInfo[0].equals(devicesIdToEdit)){
+                                if(Long.valueOf(deviceInfo[0]).equals(devicesIdToEdit)){
                                     break;
                                 }
                                 indexCount++;
                             }
-                            //end of checking if the database is empty or not
+                            //end of getting device info
 
                             if(deviceInfo == null){
                                 System.out.println("No device found with the following ID.\nDo you want to update another device?\n1. Yes\n2. No");
@@ -106,6 +101,50 @@ public class Main {
                                 }
                             }else{
                                 System.out.println("SmartDevice: #" + indexCount + "\nID:" + deviceInfo[0] + "\nDevice Name:" + deviceInfo[1] + "\nDevice Type:" + deviceInfo[2] +  "\nOS Version:" + deviceInfo[3] +  "\nBattery Life:" + deviceInfo[4] +  "\nPrice:" + deviceInfo[5] +  "\nAvailability:" + deviceInfo[6]);
+                                System.out.println("What information would you like to change?\n1. Device Name\n2. Device Type\n3. OS Version\n4. Battery Life\n5. Price\n6. Availability\n7. Quit\nEnter your choice >");
+                                int choice = Integer.valueOf(input.nextLine());
+
+                                //appointing attribute values
+                                SmartDevice sd = new SmartDevice();
+                                sd.setDeviceId(Long.valueOf(deviceInfo[0]));
+                                sd.setDeviceName(deviceInfo[1]);
+                                sd.setDeviceType(deviceInfo[2]);
+                                sd.setOsVersion(deviceInfo[3]);
+                                sd.setBatteryLife(Float.valueOf(deviceInfo[4]));
+                                sd.setPrice(Float.valueOf(deviceInfo[5]));
+                                sd.setIsInStock(Boolean.valueOf(deviceInfo[6]));
+                                //end of appointment
+
+                                //choice wise changing the attribute values
+                                if(choice == 1){
+                                    System.out.println("Type New Device Name:");
+                                    sd.setDeviceName(input.nextLine());
+                                }
+                                if(choice == 2){
+                                    System.out.println("Type New Device Type:");
+                                    sd.setDeviceType(input.nextLine());
+                                }
+                                if(choice == 3){
+                                    System.out.println("Type New OS Version:");
+                                    sd.setOsVersion(input.nextLine());
+                                }
+                                if(choice == 4){
+                                    System.out.println("Type New Battery Life:");
+                                    sd.setBatteryLife(Float.valueOf(input.nextLine()));
+                                }
+                                if(choice == 5){
+                                    System.out.println("Type New Price:");
+                                    sd.setPrice(Float.valueOf(input.nextLine()));
+                                }
+                                if(choice == 6){
+                                    System.out.println("Type New Availability:");
+                                    sd.setIsInStock(Boolean.valueOf(input.nextLine()));
+                                }
+                                //end
+
+                                String result = sd.updateDevice(indexCount);
+                                deviceInfo = SmartDevice.DeviceDatabase[indexCount].split("\\|");
+                                System.out.println(result + "\nSmartDevice: #" + indexCount + "\nID:" + deviceInfo[0] + "\nDevice Name:" + deviceInfo[1] + "\nDevice Type:" + deviceInfo[2] +  "\nOS Version:" + deviceInfo[3] +  "\nBattery Life:" + deviceInfo[4] +  "\nPrice:" + deviceInfo[5] +  "\nAvailability:" + deviceInfo[6]);
                                 break;
                             }
                         }
@@ -135,6 +174,6 @@ public class Main {
             }
         }
 
-//        System.out.println(Arrays.toString(SmartDevice.DeviceDatabase));
+        System.out.println(Arrays.toString(SmartDevice.DeviceDatabase));
     }
 }

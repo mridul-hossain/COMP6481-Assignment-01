@@ -12,7 +12,17 @@ public class SmartDevice {
     public static int maxDevices = 10;
     public static String[] DeviceDatabase = new String[maxDevices];
 
-    public SmartDevice(long deviceID, String deviceName, String deviceType, String osVersion, float batteryLife, float price, boolean isInStock, int index){
+    public SmartDevice(){
+        deviceID = 0;
+        deviceName = "";
+        deviceType = "";
+        osVersion = "";
+        batteryLife = 0;
+        price = 0;
+        isInStock = false;
+    }
+
+    public SmartDevice(long deviceID, String deviceName, String deviceType, String osVersion, float batteryLife, float price, boolean isInStock){
         this.deviceID = deviceID;
         this.deviceName = deviceName;
         this.deviceType = deviceType;
@@ -20,8 +30,6 @@ public class SmartDevice {
         this.batteryLife = batteryLife;
         this.price = price;
         this.isInStock = isInStock;
-
-        DeviceDatabase[index] = deviceID + "|" + deviceName + "|" + deviceType + "|" + osVersion + "|" + batteryLife + "|" + price + "|" + isInStock;
     }
 
     public void setDeviceId(long deviceID){
@@ -73,22 +81,15 @@ public class SmartDevice {
         return isInStock;
     }
 
-    int size = 1;
-    public String[] deviceInfo = new String[size];
+    //method for adding devices in the device database
+    public String addDevice(int indexNumber){
+        DeviceDatabase[indexNumber] = deviceID + "|" + deviceName + "|" + deviceType + "|" + osVersion + "|" + batteryLife + "|" + price + "|" + isInStock;
 
-    public String storeDate(String deviceName, int index){
-        if(!deviceName.isEmpty()){
-            int arraySize = deviceInfo.length;
-            String[] cloneDeviceInfo = Arrays.copyOf(deviceInfo, arraySize);
-            deviceInfo = new String[size++];
-            for(int i = 0; i < cloneDeviceInfo.length; i++){
-                deviceInfo[i] = cloneDeviceInfo[i];
-            }
-            deviceInfo[index] = deviceName;
-        }else{
-            deviceInfo[index] = deviceName;
-        }
+        return "Device added successfully";
+    }
 
-        return "Device stored successfully";
+    public String updateDevice(int indexNumber){
+        DeviceDatabase[indexNumber] = deviceID + "|" + deviceName + "|" + deviceType + "|" + osVersion + "|" + batteryLife + "|" + price + "|" + isInStock;
+        return "Device information changed successfully";
     }
 }
