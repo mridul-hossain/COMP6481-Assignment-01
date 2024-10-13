@@ -1,7 +1,9 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
+//
+// Assignment (01)
+// © Md Mridul Hossain
+// Written by: (Md Mridul Hossain, 40261486)
+//
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {

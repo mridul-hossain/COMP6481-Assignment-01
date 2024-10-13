@@ -1,4 +1,8 @@
-import java.util.Arrays;
+//
+// Assignment (01)
+// © Md Mridul Hossain
+// Written by: (Md Mridul Hossain, 40261486) 
+//
 
 public class SmartDevice {
 
