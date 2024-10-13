@@ -101,50 +101,55 @@ public class Main {
                                 }
                             }else{
                                 System.out.println("SmartDevice: #" + indexCount + "\nID:" + deviceInfo[0] + "\nDevice Name:" + deviceInfo[1] + "\nDevice Type:" + deviceInfo[2] +  "\nOS Version:" + deviceInfo[3] +  "\nBattery Life:" + deviceInfo[4] +  "\nPrice:" + deviceInfo[5] +  "\nAvailability:" + deviceInfo[6]);
-                                System.out.println("What information would you like to change?\n1. Device Name\n2. Device Type\n3. OS Version\n4. Battery Life\n5. Price\n6. Availability\n7. Quit\nEnter your choice >");
-                                int choice = Integer.valueOf(input.nextLine());
+                                while(true){
+                                    System.out.println("What information would you like to change?\n1. Device Name\n2. Device Type\n3. OS Version\n4. Battery Life\n5. Price\n6. Availability\n7. Quit\nEnter your choice >");
+                                    int choice = Integer.valueOf(input.nextLine());
 
-                                //appointing attribute values
-                                SmartDevice sd = new SmartDevice();
-                                sd.setDeviceId(Long.valueOf(deviceInfo[0]));
-                                sd.setDeviceName(deviceInfo[1]);
-                                sd.setDeviceType(deviceInfo[2]);
-                                sd.setOsVersion(deviceInfo[3]);
-                                sd.setBatteryLife(Float.valueOf(deviceInfo[4]));
-                                sd.setPrice(Float.valueOf(deviceInfo[5]));
-                                sd.setIsInStock(Boolean.valueOf(deviceInfo[6]));
-                                //end of appointment
+                                    //appointing attribute values
+                                    SmartDevice sd = new SmartDevice();
+                                    sd.setDeviceId(Long.valueOf(deviceInfo[0]));
+                                    sd.setDeviceName(deviceInfo[1]);
+                                    sd.setDeviceType(deviceInfo[2]);
+                                    sd.setOsVersion(deviceInfo[3]);
+                                    sd.setBatteryLife(Float.valueOf(deviceInfo[4]));
+                                    sd.setPrice(Float.valueOf(deviceInfo[5]));
+                                    sd.setIsInStock(Boolean.valueOf(deviceInfo[6]));
+                                    //end of appointment
 
-                                //choice wise changing the attribute values
-                                if(choice == 1){
-                                    System.out.println("Type New Device Name:");
-                                    sd.setDeviceName(input.nextLine());
-                                }
-                                if(choice == 2){
-                                    System.out.println("Type New Device Type:");
-                                    sd.setDeviceType(input.nextLine());
-                                }
-                                if(choice == 3){
-                                    System.out.println("Type New OS Version:");
-                                    sd.setOsVersion(input.nextLine());
-                                }
-                                if(choice == 4){
-                                    System.out.println("Type New Battery Life:");
-                                    sd.setBatteryLife(Float.valueOf(input.nextLine()));
-                                }
-                                if(choice == 5){
-                                    System.out.println("Type New Price:");
-                                    sd.setPrice(Float.valueOf(input.nextLine()));
-                                }
-                                if(choice == 6){
-                                    System.out.println("Type New Availability:");
-                                    sd.setIsInStock(Boolean.valueOf(input.nextLine()));
-                                }
-                                //end
+                                    //choice wise changing the attribute values
+                                    if(choice == 1){
+                                        System.out.println("Type New Device Name:");
+                                        sd.setDeviceName(input.nextLine());
+                                    }
+                                    if(choice == 2){
+                                        System.out.println("Type New Device Type:");
+                                        sd.setDeviceType(input.nextLine());
+                                    }
+                                    if(choice == 3){
+                                        System.out.println("Type New OS Version:");
+                                        sd.setOsVersion(input.nextLine());
+                                    }
+                                    if(choice == 4){
+                                        System.out.println("Type New Battery Life:");
+                                        sd.setBatteryLife(Float.valueOf(input.nextLine()));
+                                    }
+                                    if(choice == 5){
+                                        System.out.println("Type New Price:");
+                                        sd.setPrice(Float.valueOf(input.nextLine()));
+                                    }
+                                    if(choice == 6){
+                                        System.out.println("Type New Availability:");
+                                        sd.setIsInStock(Boolean.valueOf(input.nextLine()));
+                                    }
+                                    if(choice == 7){
+                                        break;
+                                    }
+                                    //end
 
-                                String result = sd.updateDevice(indexCount);
-                                deviceInfo = SmartDevice.DeviceDatabase[indexCount].split("\\|");
-                                System.out.println(result + "\nSmartDevice: #" + indexCount + "\nID:" + deviceInfo[0] + "\nDevice Name:" + deviceInfo[1] + "\nDevice Type:" + deviceInfo[2] +  "\nOS Version:" + deviceInfo[3] +  "\nBattery Life:" + deviceInfo[4] +  "\nPrice:" + deviceInfo[5] +  "\nAvailability:" + deviceInfo[6]);
+                                    String result = sd.updateDevice(indexCount);
+                                    deviceInfo = SmartDevice.DeviceDatabase[indexCount].split("\\|");
+                                    System.out.println(result + "\nSmartDevice: #" + indexCount + "\nID:" + deviceInfo[0] + "\nDevice Name:" + deviceInfo[1] + "\nDevice Type:" + deviceInfo[2] +  "\nOS Version:" + deviceInfo[3] +  "\nBattery Life:" + deviceInfo[4] +  "\nPrice:" + deviceInfo[5] +  "\nAvailability:" + deviceInfo[6]);
+                                }
                                 break;
                             }
                         }
@@ -164,7 +169,16 @@ public class Main {
                 action = 0;
             }
             if(action == 3){
+                System.out.println("Please type device type:");
+                String deviceType = input.nextLine();
 
+                String[] result = SmartDevice.findSearchDevicesByType(deviceType);
+
+                int indexCount = 0;
+                while (result[indexCount] != null) {
+                    System.out.println(result[indexCount]);
+                    indexCount++;
+                }
             }
             if(action == 4){
 

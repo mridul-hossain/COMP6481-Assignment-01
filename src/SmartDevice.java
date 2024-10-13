@@ -88,8 +88,24 @@ public class SmartDevice {
         return "Device added successfully";
     }
 
+    //method for updating device information
     public String updateDevice(int indexNumber){
         DeviceDatabase[indexNumber] = deviceID + "|" + deviceName + "|" + deviceType + "|" + osVersion + "|" + batteryLife + "|" + price + "|" + isInStock;
         return "Device information changed successfully";
+    }
+
+    //method for searching the devices by type
+    public static String[] findSearchDevicesByType(String type){
+        String[] devices = new String[maxDevices];
+        int count = 0;
+        while(DeviceDatabase[count] != null){
+            String[] deviceInfo = DeviceDatabase[count].split("\\|");
+            if(deviceInfo[2].equals(type)){
+                devices[count] = DeviceDatabase[count];
+            }
+            count++;
+        }
+
+        return devices;
     }
 }
