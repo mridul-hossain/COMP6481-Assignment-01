@@ -38,8 +38,17 @@ public class Main {
                             for (int i = dataCount; i < (devicesWantToAdd + dataCount); i++){
                                 SmartDevice sd = new SmartDevice();
                                 System.out.println("Please type the following information >");
-                                System.out.println("ID:");
-                                sd.setDeviceId(Long.valueOf(input.nextLine()));
+                                //comparing device id if it already exist or not
+                                while(true) {
+                                    System.out.println("ID:");
+                                    sd.setDeviceId(Long.valueOf(input.nextLine()));
+                                    int comparisonResult = sd.compareDevice();
+                                    if(comparisonResult == 0){
+                                        break;
+                                    }else{
+                                        System.out.println("A device with the same ID exist in the database. Please type different ID number.");
+                                    }
+                                }
                                 System.out.println("Name:");
                                 sd.setDeviceName(input.nextLine());
                                 System.out.println("Type:");
@@ -56,6 +65,9 @@ public class Main {
                                 String result = sd.addDevice(i);
                                 System.out.println(result);
                             }
+                        }else{
+                            int availableSpaceToAddDevices = (SmartDevice.maxDevices - dataCount);
+                            System.out.println("You can add more " + availableSpaceToAddDevices + " devices");
                         }
                         action = 0;
                         break;
@@ -174,20 +186,57 @@ public class Main {
 
                 String[] result = SmartDevice.findSearchDevicesByType(deviceType);
 
-                int indexCount = 0;
-                while (result[indexCount] != null) {
-                    System.out.println(result[indexCount]);
-                    indexCount++;
+                //checking if the result is empty or not
+                boolean emptyCheck = true;
+                for(int i = 0; i < result.length; i++){
+                    if(result[i] != null){
+                        emptyCheck = false;
+                    }
                 }
+                // end of checking if the result is empty or not
+
+                if(emptyCheck == false){
+                    int indexCount = 0;
+                    while (result[indexCount] != null) {
+                        System.out.println(result[indexCount]);
+                        indexCount++;
+                    }
+                }else{
+                    System.out.println("No device(s) found for following device type.");
+                }
+
+                action = 0;
             }
             if(action == 4){
+                System.out.println("Please type your affordable price:");
+                float maxPrice = Float.valueOf(input.nextLine());
 
+                String[] result = SmartDevice.affordableDevices(maxPrice);
+
+                //checking if the result is empty or not
+                boolean emptyCheck = true;
+                for(int i = 0; i < result.length; i++){
+                    if(result[i] != null){
+                        emptyCheck = false;
+                    }
+                }
+                // end of checking if the result is empty or not
+
+                if(emptyCheck == false){
+                    int indexCount = 0;
+                    while (result[indexCount] != null) {
+                        System.out.println(result[indexCount]);
+                        indexCount++;
+                    }
+                }else{
+                    System.out.println("No device(s) found in affordable price.");
+                }
+
+                action = 0;
             }
             if(action == 5){
                 break;
             }
         }
-
-        System.out.println(Arrays.toString(SmartDevice.DeviceDatabase));
     }
 }

@@ -11,6 +11,7 @@ public class SmartDevice {
     private boolean isInStock;
     public static int maxDevices = 10;
     public static String[] DeviceDatabase = new String[maxDevices];
+    public static int deviceCount = 0;
 
     public SmartDevice(){
         deviceID = 0;
@@ -84,6 +85,7 @@ public class SmartDevice {
     //method for adding devices in the device database
     public String addDevice(int indexNumber){
         DeviceDatabase[indexNumber] = deviceID + "|" + deviceName + "|" + deviceType + "|" + osVersion + "|" + batteryLife + "|" + price + "|" + isInStock;
+        deviceCount++;
 
         return "Device added successfully";
     }
@@ -107,5 +109,39 @@ public class SmartDevice {
         }
 
         return devices;
+    }
+
+    //methods for comparing devices if they are the same or not
+    public int compareDevice(){
+        int count = 0;
+        while(DeviceDatabase[count] != null){
+            String[] deviceInfo = DeviceDatabase[count].split("\\|");
+            if(Long.valueOf(deviceInfo[0]).equals(deviceID)){
+                return 1;
+            }
+            count++;
+        }
+
+        return 0;
+    }
+
+    //method for finding affordable devices
+    public static String[] affordableDevices(float maxPrice){
+        String[] devices = new String[maxDevices];
+        int count = 0;
+        while(DeviceDatabase[count] != null){
+            String[] deviceInfo = DeviceDatabase[count].split("\\|");
+            if(Float.valueOf(deviceInfo[5]) <= maxPrice){
+                devices[count] = DeviceDatabase[count];
+            }
+            count++;
+        }
+
+        return devices;
+    }
+
+    //method for getting the number of smart devices
+    public static int getNumberOfSmartDevices(){
+        return deviceCount;
     }
 }
