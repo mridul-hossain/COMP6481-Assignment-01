@@ -1,7 +1,7 @@
 //
 // Assignment (01)
 // © Md Mridul Hossain
-// Written by: (Md Mridul Hossain, 40261486) 
+// Written by: (Md Mridul Hossain, 40261486)
 //
 
 public class SmartDevice {
@@ -104,10 +104,12 @@ public class SmartDevice {
     public static String[] findSearchDevicesByType(String type){
         String[] devices = new String[maxDevices];
         int count = 0;
+        int countForNewArray = 0;
         while(DeviceDatabase[count] != null){
             String[] deviceInfo = DeviceDatabase[count].split("\\|");
             if(deviceInfo[2].equals(type)){
-                devices[count] = DeviceDatabase[count];
+                devices[countForNewArray] = DeviceDatabase[count];
+                countForNewArray++;
             }
             count++;
         }

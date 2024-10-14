@@ -239,6 +239,7 @@ public class Main {
             if(action == 5){
                 break;
             }
+            action = 0;
         }
     }
 }
