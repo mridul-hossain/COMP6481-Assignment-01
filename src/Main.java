@@ -14,6 +14,7 @@ public class Main {
         int count = -1;
         String defaultPassword = "device2024";
         int passwordCount = 0;
+        int suspiciousCount = 0;
         String password;
 
         while(action == 0){
@@ -75,12 +76,15 @@ public class Main {
                         break;
                     }else{
                         passwordCount++;
+                        suspiciousCount++;
                         if(passwordCount == 3){
+                            passwordCount = 0;
+                            if (suspiciousCount == 12) {
+                                suspiciousCount = 0;
+                                System.out.println("Program detected suspicious activities and will terminate immediately!");
+                                System.exit(0);
+                            }
                             break;
-                        }
-                        if (passwordCount >= 4) {
-                            System.out.println("Program detected suspicious activities and will terminate immediately!");
-                            System.exit(0);
                         }
                     }
                 }
@@ -171,12 +175,15 @@ public class Main {
                         break;
                     }else{
                         passwordCount++;
+                        suspiciousCount++;
                         if(passwordCount == 3){
+                            passwordCount = 0;
+                            if (suspiciousCount == 12) {
+                                suspiciousCount = 0;
+                                System.out.println("Program detected suspicious activities and will terminate immediately!");
+                                System.exit(0);
+                            }
                             break;
-                        }
-                        if (passwordCount >= 4) {
-                            System.out.println("Program detected suspicious activities and will terminate immediately!");
-                            System.exit(0);
                         }
                     }
                 }
